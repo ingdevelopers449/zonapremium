@@ -23,6 +23,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { SERVICES, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
 import { Service, ServiceOption } from './types';
+import logoUrl from './assets/logo.png';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(true); // Default to dark for premium feel
@@ -88,7 +89,7 @@ export default function App() {
               <div className="absolute inset-0 bg-gold blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
               <div className="relative w-14 h-14 bg-premium-black rounded-xl border border-gold/50 flex items-center justify-center overflow-hidden shadow-2xl">
                 <img 
-                  src="/logo.png" 
+                  src={logoUrl} 
                   alt="ZonaPremium" 
                   className="h-full w-auto" 
                   onError={(e) => {
