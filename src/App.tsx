@@ -495,15 +495,15 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
               {/* Header Row */}
               <div className="p-6 flex items-start gap-5">
                 {/* Left Column: Logo */}
-                <div className={`w-20 h-fit min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-3xl flex items-center justify-center p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
+                <div className={`w-16 sm:w-20 h-fit min-h-[64px] sm:min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl sm:rounded-3xl flex items-center justify-center p-2 sm:p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
                   {service.icons ? (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                       {service.icons.map((ic, i) => (
                         <img
                           key={i}
                           src={ic}
                           alt="icon"
-                          className={`w-6 h-6 object-contain filter ${service.invertInDarkMode && i === service.icons.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
+                          className={`w-5 h-5 sm:w-6 sm:h-6 object-contain filter ${service.invertInDarkMode && i === service.icons.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
                           referrerPolicy="no-referrer"
                         />
                       ))}
@@ -529,18 +529,18 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
                 </div>
 
                 {/* Right Column: Info */}
-                <div className="flex-1 min-w-0 pr-2">
-                  <h4 className={`font-black tracking-tight mb-2 pr-28 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-lg' : 'text-xl'}`}>
+                <div className="flex-1 min-w-0 pr-1 sm:pr-2">
+                  <h4 className={`font-black tracking-tight mb-2 pr-24 sm:pr-28 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'}`}>
                     {service.name}
                   </h4>
                   <div className="space-y-1">
                     {service.options.map((opt, idx) => (
                       <div key={idx} className="flex flex-col">
-                        <div className="flex items-center justify-between gap-4">
-                          <span className="text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between sm:gap-4">
+                          <span className="text-[10px] sm:text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
                             {service.category === 'streaming' ? '1 PANTALLA • ' : ''}{opt.days} DÍAS
                           </span>
-                          <span className="font-black text-gold text-2xl tracking-tighter">${opt.price.toLocaleString()}</span>
+                          <span className="font-black text-gold text-xl sm:text-2xl tracking-tighter self-start sm:self-auto">${opt.price.toLocaleString()}</span>
                         </div>
                         {service.savings && (
                           <div className="text-[12px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
