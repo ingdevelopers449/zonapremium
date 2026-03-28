@@ -1,35 +1,26 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState, useEffect } from 'react';
-import {
-  Sun,
-  Moon,
-  ChevronDown,
-  ChevronUp,
-  ShoppingCart,
-  Info,
-  ShieldCheck,
-  Clock,
-  Smartphone,
-  CheckCircle2,
-  X,
-  MessageCircle,
-  Star,
-  Shield,
-  Loader2,
-  ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Header from './components/layout/Header';
+import Hero from './components/home/Hero';
+import HowItWorks from './components/home/HowItWorks';
+import TrustBadges from './components/home/TrustBadges';
+import Testimonials from './components/home/Testimonials';
+import FAQ from './components/home/FAQ';
+import ServiceGrid from './components/services/ServiceGrid';
+import Footer from './components/layout/Footer';
+import PurchaseModal from './components/modals/PurchaseModal';
+import NequiModal from './components/modals/NequiModal';
+import SuccessModal from './components/modals/SuccessModal';
+import ProgressBar from './components/layout/ProgressBar';
+import CustomCursor from './components/ui/CustomCursor';
+import SalesMarquee from './components/home/SalesMarquee';
+import Confetti from './components/ui/Confetti';
 import { SERVICES, COMBOS, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
 import { Service, ServiceOption } from './types';
-import logoUrl from './assets/logo.png';
+import { Shield, CheckCircle2, BadgeCheck } from 'lucide-react';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(true); // Default to dark for premium feel
+  const [darkMode, setDarkMode] = useState(true);
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<{ service: Service, option: ServiceOption } | null>(null);
   const [formData, setFormData] = useState({ name: '', phone: '' });
@@ -38,10 +29,9 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simula el loader elegante
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -87,92 +77,31 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-premium-black text-gray-800 dark:text-gray-100 font-sans selection:bg-gold selection:text-white overflow-x-hidden">
+      <ProgressBar />
+      <CustomCursor />
+      
+      {showSuccessModal && <Confetti />}
+
       {/* Animated Background Elements */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-gold/10 blur-[120px] rounded-full animate-pulse"></div>
         <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-silver/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      {/* Header */}
-      <header className="sticky top-0 z-40 w-full bg-white/80 dark:bg-premium-black/80 backdrop-blur-xl border-b border-gray-200 dark:border-gold/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            {/* Logo Placeholder - User should replace with their logo image */}
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gold blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
-              <div className="relative w-14 h-14 bg-premium-black rounded-xl border border-gold/50 flex items-center justify-center overflow-hidden shadow-2xl">
-                <img
-                  src={logoUrl}
-                  alt="ZonaPremium"
-                  className="h-full w-auto"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                  }}
-                />
-                <Shield className="text-gold hidden" size={32} />
-              </div>
-            </div>
-            <div>
-              <h1 className="text-2xl font-black tracking-tighter text-gray-900 dark:text-white uppercase">
-                Zona<span className="text-gold-gradient">Premium</span>
-              </h1>
-              <div className="flex gap-1">
-                {[1, 2, 3].map(i => <Star key={i} size={10} className="fill-gold text-gold" />)}
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-3 rounded-2xl bg-gray-100 dark:bg-premium-gray text-gray-600 dark:text-gold border border-transparent dark:border-gold/20 hover:border-gold transition-all shadow-inner"
-            aria-label="Toggle theme"
-          >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-        </div>
-      </header>
+      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Hero Section */}
-        <section className="text-center mb-24">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-block px-4 py-1 rounded-full border border-gold/30 bg-gold/5 text-gold text-xs font-bold uppercase tracking-widest mb-6">
-              Servicios Digitales de Élite
-            </div>
-            <h2 className="text-5xl sm:text-7xl font-black mb-8 tracking-tight leading-none">
-              TU MEJOR OPCIÓN EN <br />
-              <span className="text-gold-gradient italic">SERVICIOS PREMIUM</span>
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-silver-dark max-w-2xl mx-auto leading-relaxed font-light mb-8">
-              Accede a plataformas de entretenimiento y herramientas de élite de forma fácil, rápida y segura. <span className="text-gold font-medium">Activación personalizada inmediata.</span>
-            </p>
+        <Hero setShowNequiModal={setShowNequiModal} />
+        
+        <SalesMarquee />
 
-            <div className="flex flex-col items-center justify-center space-y-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-[0.2em]">Medio de pago oficial</span>
-              <button 
-                onClick={() => setShowNequiModal(true)}
-                className="flex items-center gap-4 bg-white dark:bg-premium-black/50 border-2 border-pink-500/20 dark:border-pink-500/30 px-8 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all group overflow-hidden relative"
-              >
-                <div className="absolute inset-0 bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors"></div>
-                <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-8 w-auto relative z-10 filter drop-shadow-sm" />
-                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 relative z-10"></div>
-                <div className="text-left relative z-10">
-                  <span className="block font-black text-gray-800 dark:text-gray-200 tracking-tight leading-none text-base">VER DATOS DE PAGO</span>
-                  <span className="text-[10px] text-pink-500 font-bold uppercase tracking-widest">Socio Verificado ✅</span>
-                </div>
-              </button>
-            </div>
-          </motion.div>
-        </section>
+        {/* Trust Badges - primera capa de confianza */}
+        <TrustBadges />
+        
+        <HowItWorks />
 
-        {/* Services Grid */}
         <div className="space-y-24">
-          <ServiceSection
+          <ServiceGrid
             title="Combos Explosivos 🔥"
             services={COMBOS}
             expandedService={expandedService}
@@ -181,7 +110,7 @@ export default function App() {
             isLoading={isLoading}
           />
 
-          <ServiceSection
+          <ServiceGrid
             title="Streaming de Lujo"
             services={streamingServices}
             expandedService={expandedService}
@@ -190,7 +119,7 @@ export default function App() {
             isLoading={isLoading}
           />
 
-          <ServiceSection
+          <ServiceGrid
             title="Herramientas de Poder"
             services={toolServices}
             expandedService={expandedService}
@@ -200,15 +129,21 @@ export default function App() {
           />
         </div>
 
-        {/* Nequi Info Card - Styled like a premium membership card */}
+        {/* Testimonials - validación social */}
+        <Testimonials />
+
+        {/* FAQ - transparencia */}
+        <FAQ />
+
+        {/* Nequi Info Card Section */}
         <section className="mt-32 relative group">
           <div className="absolute inset-0 bg-gold/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-          <div className="relative bg-white dark:bg-premium-gray rounded-[40px] p-10 border border-gray-200 dark:border-gold/30 shadow-2xl overflow-hidden">
+          <div className="relative bg-white dark:bg-premium-gray rounded-[32px] md:rounded-[40px] p-6 md:p-10 border border-gray-200 dark:border-gold/30 shadow-2xl overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
 
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="flex-1 text-center md:text-left">
-                <h3 className="text-3xl font-black mb-4 flex items-center justify-center md:justify-start gap-3">
+                <h3 className="text-3xl font-black mb-4 flex flex-col md:flex-row items-center justify-center md:justify-start gap-3">
                   <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-8 w-auto filter drop-shadow-md" />
                   MÉTODO DE PAGO
                 </h3>
@@ -227,7 +162,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="w-full md:w-72 aspect-square bg-gold-metallic rounded-3xl p-1 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+              <div className="w-full md:w-72 aspect-square bg-gold-metallic rounded-3xl p-1 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500 hidden md:block">
                 <div className="w-full h-full bg-premium-black rounded-[22px] flex flex-col items-center justify-center p-6 text-center">
                   <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mb-4">
                     <Shield className="text-gold" size={32} />
@@ -241,399 +176,50 @@ export default function App() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-50 dark:bg-premium-black border-t border-gray-200 dark:border-gold/10 py-16 mt-32">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
-              <span className="text-premium-black font-bold text-sm">ZP</span>
-            </div>
-            <span className="font-black tracking-tighter uppercase">ZonaPremium</span>
-          </div>
-          <p className="text-gray-500 dark:text-silver-dark text-sm max-w-md mx-auto">
-            Activación inmediata y soporte garantizado. Tu satisfacción es nuestra prioridad número uno.
-          </p>
-          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gold/5 text-xs text-gray-400 dark:text-silver-dark/50">
-            © {new Date().getFullYear()} ZonaPremium. Todos los derechos reservados.
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
-      {/* Purchase Modal */}
-      <AnimatePresence>
-        {selectedService && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              className="bg-white dark:bg-premium-gray rounded-[40px] w-full max-w-md overflow-hidden shadow-2xl border border-gold/20"
-            >
-              <div className="p-8 border-b border-gray-100 dark:border-gold/10 flex justify-between items-center bg-gray-50 dark:bg-premium-black/50">
-                <div>
-                  <h3 className="text-2xl font-black tracking-tight">SOLICITAR ACCESO</h3>
-                  <p className="text-xs text-gold font-bold uppercase tracking-widest">Paso Final</p>
-                </div>
-                <button onClick={closePurchaseModal} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gold/10 text-gray-400 hover:text-gray-600 dark:hover:text-gold transition-colors">
-                  <X size={24} />
-                </button>
-              </div>
-
-              <form onSubmit={handleSubmit} className="p-8 space-y-8">
-                <div className="bg-gold-metallic p-[1px] rounded-3xl">
-                  <div className="bg-white dark:bg-premium-black p-6 rounded-[23px]">
-                    <p className="text-xs text-gray-500 dark:text-silver-dark font-bold uppercase tracking-widest mb-2">Suscripción</p>
-                    <p className="text-xl font-black text-gray-900 dark:text-white">{selectedService.option.label}</p>
-                    <div className="mt-4 flex items-end gap-2">
-                      <span className="text-3xl font-black text-gold">${selectedService.option.price.toLocaleString()}</span>
-                      <span className="text-sm text-gray-400 mb-1">/ {selectedService.option.days} días</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-5">
-                  <div className="relative">
-                    <input
-                      required
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Tu nombre completo"
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-premium-black border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30"
-                    />
-                  </div>
-                  <div className="relative">
-                    <input
-                      required
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="Tu número de WhatsApp"
-                      className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-premium-black border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-gold-metallic text-premium-black font-black py-5 rounded-2xl shadow-2xl shadow-gold/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3 uppercase tracking-tighter"
-                >
-                  <MessageCircle size={22} className="fill-premium-black" />
-                  ORDENAR POR WHATSAPP
-                </button>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Success Modal */}
-      <AnimatePresence>
-        {showSuccessModal && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white dark:bg-premium-gray p-12 rounded-[40px] text-center shadow-2xl max-w-sm border border-gold/30"
-            >
-              <div className="w-24 h-24 bg-gold-metallic text-premium-black rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                <CheckCircle2 size={56} />
-              </div>
-              <h3 className="text-3xl font-black mb-4 tracking-tight">¡EXCELENTE!</h3>
-              <p className="text-gray-600 dark:text-silver-dark font-light mb-6">
-                Estamos preparando tu acceso.
-              </p>
-              <div className="flex flex-col items-center justify-center gap-3">
-                <Loader2 className="w-8 h-8 text-gold animate-spin" />
-                <span className="text-gold font-bold tracking-widest text-sm uppercase">Redirigiendo a WhatsApp...</span>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Nequi Info Modal */}
-      <AnimatePresence>
-        {showNequiModal && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-premium-gray rounded-[40px] w-full max-w-md overflow-hidden shadow-2xl border border-pink-500/20 relative"
-            >
-              <button 
-                onClick={() => setShowNequiModal(false)}
-                className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gold/10 text-gray-400 hover:text-gray-600 dark:hover:text-gold transition-colors z-10"
-              >
-                <X size={24} />
-              </button>
-
-              <div className="p-10 pt-12 space-y-8 text-center">
-                <div className="flex justify-center flex-col items-center gap-4">
-                  <div className="w-24 h-24 bg-pink-500/10 rounded-full flex items-center justify-center border border-pink-500/20">
-                    <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="w-12 h-auto" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-black tracking-tight uppercase">MÉTODO OFICIAL</h3>
-                    <div className="flex items-center justify-center gap-2 mt-1">
-                      <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
-                      <span className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Cuenta Verificada</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 dark:bg-premium-black/50 p-8 rounded-[32px] border-2 border-pink-500/30 relative group">
-                  <span className="block text-[10px] text-pink-500 font-bold uppercase tracking-[0.2em] mb-2 text-center">NÚMERO DE CUENTA</span>
-                  <p className="text-4xl font-black tracking-tighter text-gray-900 dark:text-white mb-2">{NEQUI_NUMBER}</p>
-                  <p className="text-xs text-gray-400 dark:text-silver-dark font-light">
-                    Socio Autorizado ZonaPremium
-                  </p>
-                </div>
-
-                <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-gold/10">
-                  <p className="text-sm text-gray-600 dark:text-silver-dark font-light">
-                    Por favor, una vez terminado el pago, envía tu <span className="font-bold text-premium-black dark:text-white">captura</span> para activar tu servicio.
-                  </p>
-                  <button 
-                    onClick={() => setShowNequiModal(false)}
-                    className="w-full bg-premium-black dark:bg-white text-white dark:text-premium-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all"
-                  >
-                    CONTINUAR NAVEGANDO
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
-function ServiceSection({ title, services, expandedService, toggleService, onPurchase, isLoading }: {
-  title: string,
-  services: Service[],
-  expandedService: string | null,
-  toggleService: (id: string) => void,
-  onPurchase: (s: Service, o: ServiceOption) => void,
-  isLoading?: boolean
-}) {
-  const itemsPerPage = 6;
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const totalPages = Math.ceil((services?.length || 0) / itemsPerPage);
-
-  const currentServices = (services || []).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-  return (
-    <section>
-      <div className="flex items-center gap-4 mb-10">
-        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
-        <h3 className="text-3xl font-black tracking-tighter uppercase text-center">{title}</h3>
-        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 overflow-hidden min-h-[400px]">
-        <AnimatePresence mode="wait">
-          {isLoading ? (
-            <motion.div 
-              key="skeleton"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 col-span-full w-full"
-            >
-              {Array.from({ length: Math.min(itemsPerPage, services?.length || 3) }).map((_, i) => (
-            <div key={i} className="bg-gray-100 dark:bg-premium-gray/50 rounded-[32px] h-[340px] border border-gray-200 dark:border-gold/5 animate-pulse flex flex-col p-6">
-              <div className="flex items-start gap-5">
-                <div className="w-16 h-16 rounded-2xl bg-gray-200 dark:bg-premium-black/80"></div>
-                <div className="flex-1 pt-2">
-                  <div className="h-5 w-3/4 bg-gray-200 dark:bg-premium-black/80 rounded-full mb-4"></div>
-                  <div className="flex items-center justify-between mt-6">
-                    <div className="h-3 w-1/3 bg-gray-200 dark:bg-premium-black/80 rounded-full"></div>
-                    <div className="h-5 w-1/3 bg-gray-200 dark:bg-premium-black/80 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-auto h-12 w-full bg-gray-200 dark:bg-premium-black/80 rounded-xl"></div>
-            </div>
-          ))}
-            </motion.div>
-        ) : (
+      {/* Floating Verified Badge */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 2.5, duration: 0.6, type: 'spring' }}
+        className="fixed bottom-6 right-6 z-50 hidden md:flex"
+      >
+        <AnimatePresence>
           <motion.div
-            key={currentPage}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 col-span-full w-full"
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-2.5 bg-white dark:bg-premium-gray border border-gold/30 rounded-2xl px-4 py-2.5 shadow-2xl shadow-black/20 cursor-default"
           >
-            {currentServices.map((service) => (
-              <motion.div
-              key={service.id}
-              layout
-              whileHover={expandedService === service.id ? {} : { y: -5 }}
-              animate={{
-                scale: expandedService === service.id ? 1.02 : 1,
-                boxShadow: expandedService === service.id ? "0 20px 25px -5px rgb(212 175 55 / 0.1), 0 8px 10px -6px rgb(212 175 55 / 0.1)" : "0 10px 15px -3px rgb(0 0 0 / 0.1)"
-              }}
-              className={`group bg-white dark:bg-premium-gray rounded-[32px] border transition-all flex flex-col relative ${expandedService === service.id ? 'border-gold/50 z-20 shadow-2xl shadow-gold/20' : 'border-gray-200 dark:border-gold/10 z-10'}`}
+            <motion.div
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+              className="w-7 h-7 bg-emerald-500/10 rounded-full flex items-center justify-center"
             >
-              {/* Premium Badge */}
-              <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-2">
-                <div className="bg-gold/10 backdrop-blur-md border border-gold/20 px-3 py-1 rounded-full flex items-center gap-1">
-                  <Star size={10} className="fill-gold text-gold" />
-                  <span className="text-[10px] font-black text-gold uppercase tracking-widest">Premium</span>
-                </div>
-                {service.savings && (
-                  <div className="bg-green-500/10 backdrop-blur-md border border-green-500/20 px-3 py-1 rounded-full">
-                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Ahorra {service.savings.percentage}%</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Header Row */}
-              <div className="p-6 flex items-start gap-5">
-                {/* Left Column: Logo */}
-                <div className={`w-16 sm:w-20 h-fit min-h-[64px] sm:min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl sm:rounded-3xl flex items-center justify-center p-2 sm:p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
-                  {service.icons ? (
-                    <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
-                      {service.icons.map((ic, i) => (
-                        <img
-                          key={i}
-                          src={ic}
-                          alt="icon"
-                          className={`w-5 h-5 sm:w-6 sm:h-6 object-contain filter ${service.invertInDarkMode && i === service.icons.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
-                          referrerPolicy="no-referrer"
-                        />
-                      ))}
-                    </div>
-                  ) : service.icon ? (
-                    <img
-                      src={service.icon}
-                      alt={service.name}
-                      className={`max-w-full max-h-full object-contain filter transition-all ${service.invertInDarkMode ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
-                      referrerPolicy="no-referrer"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        e.currentTarget.parentElement?.classList.add('flex-col');
-                        const fallback = document.createElement('div');
-                        fallback.className = 'text-gold font-black text-xl';
-                        fallback.innerText = service.name[0];
-                        e.currentTarget.parentElement?.appendChild(fallback);
-                      }}
-                    />
-                  ) : (
-                    <div className="text-gold font-black text-2xl">{service.name[0]}</div>
-                  )}
-                </div>
-
-                {/* Right Column: Info */}
-                <div className="flex-1 min-w-0 pr-1 sm:pr-2">
-                  <h4 className={`font-black tracking-tight mb-2 pr-16 md:pr-24 xl:pr-32 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-sm md:text-base lg:text-lg' : 'text-base md:text-lg lg:text-xl'}`}>
-                    {service.name}
-                  </h4>
-                  <div className="space-y-1">
-                    {service.options.map((opt, idx) => (
-                      <div key={idx} className="flex flex-col">
-                        <div className="flex flex-col lg:flex-row lg:items-center justify-between lg:gap-4">
-                          <span className="text-[10px] md:text-xs lg:text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
-                            {service.category === 'streaming' ? '1 PANTALLA • ' : ''}{opt.days} DÍAS
-                          </span>
-                          <span className="font-black text-gold text-lg md:text-xl xl:text-2xl tracking-tighter self-start lg:self-auto">${opt.price.toLocaleString()}</span>
-                        </div>
-                        {service.savings && (
-                          <div className="text-[12px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
-                            ¡Te ahorras ${service.savings.amount.toLocaleString()}!
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={() => toggleService(service.id)}
-                    className="mt-2 text-gold text-[10px] font-black flex items-center gap-1 hover:text-gold-light transition-colors uppercase tracking-[0.2em]"
-                  >
-                    {expandedService === service.id ? 'Cerrar' : 'Detalles'}
-                    {expandedService === service.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                  </button>
-                </div>
-              </div>
-
-              {/* Dropdown Content */}
-              <AnimatePresence>
-                {expandedService === service.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="overflow-hidden bg-gray-50 dark:bg-premium-black/50 border-t border-gray-100 dark:border-gold/10"
-                  >
-                    <div className="p-6 space-y-4">
-                      <div>
-                        <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
-                          <Info size={14} /> DESCRIPCIÓN
-                        </h5>
-                        <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
-                          {service.description}
-                        </p>
-                      </div>
-                      <div>
-                        <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
-                          <ShieldCheck size={14} /> GARANTÍA ELITE
-                        </h5>
-                        <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
-                          {service.warranty}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Footer: Purchase Buttons */}
-              <div className="mt-auto p-6 pt-0 flex flex-col gap-2">
-                {service.options.map((opt, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => onPurchase(service, opt)}
-                    className="w-full bg-gold-metallic text-premium-black py-3 rounded-xl text-xs font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 uppercase tracking-widest border border-gold/20"
-                  >
-                    <ShoppingCart size={16} className="fill-premium-black" />
-                    {service.options.length > 1 ? opt.label : `ADQUIRIR ${service.name}`}
-                  </button>
-                ))}
-              </div>
+              <BadgeCheck size={16} className="text-emerald-400" />
             </motion.div>
-          ))}
+            <div className="leading-none">
+              <p className="text-[10px] font-black text-gray-900 dark:text-white uppercase tracking-widest">Vendedor Verificado</p>
+              <p className="text-[9px] text-gray-400 dark:text-silver-dark mt-0.5">ZonaPremium · Socio de Confianza</p>
+            </div>
           </motion.div>
-        )}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
-      {/* Pagination Controls */}
-      {!isLoading && totalPages > 1 && (
-        <div className="flex justify-center items-center mt-12 gap-4">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-            disabled={currentPage === 1}
-            className="p-3 rounded-full bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 text-gray-400 dark:text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:border-gold transition-colors shadow-lg"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <div className="text-sm font-bold tracking-widest uppercase text-gray-500 dark:text-silver-dark flex items-center gap-2">
-            Página <span className="text-gold bg-gold/10 px-3 py-1 rounded-full">{currentPage}</span> de {totalPages}
-          </div>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-            disabled={currentPage === totalPages}
-            className="p-3 rounded-full bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 text-gray-400 dark:text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:border-gold transition-colors shadow-lg"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-      )}
-    </section>
+      <PurchaseModal
+        selectedService={selectedService}
+        formData={formData}
+        setFormData={setFormData}
+        onClose={closePurchaseModal}
+        onSubmit={handleSubmit}
+      />
+
+      <NequiModal
+        show={showNequiModal}
+        onClose={() => setShowNequiModal(false)}
+        nequiNumber={NEQUI_NUMBER}
+      />
+
+      <SuccessModal show={showSuccessModal} />
+    </div>
   );
 }
