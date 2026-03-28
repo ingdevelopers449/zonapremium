@@ -4,21 +4,22 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { 
-  Sun, 
-  Moon, 
-  ChevronDown, 
-  ChevronUp, 
-  ShoppingCart, 
-  Info, 
-  ShieldCheck, 
-  Clock, 
+import {
+  Sun,
+  Moon,
+  ChevronDown,
+  ChevronUp,
+  ShoppingCart,
+  Info,
+  ShieldCheck,
+  Clock,
   Smartphone,
   CheckCircle2,
   X,
   MessageCircle,
   Star,
-  Shield
+  Shield,
+  Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SERVICES, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
@@ -28,7 +29,7 @@ import logoUrl from './assets/logo.png';
 export default function App() {
   const [darkMode, setDarkMode] = useState(true); // Default to dark for premium feel
   const [expandedService, setExpandedService] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<{service: Service, option: ServiceOption} | null>(null);
+  const [selectedService, setSelectedService] = useState<{ service: Service, option: ServiceOption } | null>(null);
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -57,10 +58,10 @@ export default function App() {
     e.preventDefault();
     if (!selectedService) return;
 
-    const message = `¡Hola ZonaPremium! 👋\n\nMi nombre es *${formData.name}*.\nQuiero adquirir: *${selectedService.option.label}*\nPrecio: *$${selectedService.option.price.toLocaleString()}*\nTeléfono: ${formData.phone}\n\nQuedo atento a las instrucciones de pago por Nequi.`;
-    
+    const message = `¡Hola ZonaPremium! 👋\n\nMi nombre es *${formData.name}* .\nQuiero adquirir: *${selectedService.option.label}*\nPrecio: *$${selectedService.option.price.toLocaleString()}*\nTeléfono: ${formData.phone}\n\nQuedo atento a las instrucciones de pago por Nequi.`;
+
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    
+
     setShowSuccessModal(true);
     setTimeout(() => {
       window.open(whatsappUrl, '_blank');
@@ -88,10 +89,10 @@ export default function App() {
             <div className="relative group">
               <div className="absolute inset-0 bg-gold blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
               <div className="relative w-14 h-14 bg-premium-black rounded-xl border border-gold/50 flex items-center justify-center overflow-hidden shadow-2xl">
-                <img 
-                  src={logoUrl} 
-                  alt="ZonaPremium" 
-                  className="h-full w-auto" 
+                <img
+                  src={logoUrl}
+                  alt="ZonaPremium"
+                  className="h-full w-auto"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling?.classList.remove('hidden');
@@ -105,7 +106,7 @@ export default function App() {
                 Zona<span className="text-gold-gradient">Premium</span>
               </h1>
               <div className="flex gap-1">
-                {[1,2,3].map(i => <Star key={i} size={10} className="fill-gold text-gold" />)}
+                {[1, 2, 3].map(i => <Star key={i} size={10} className="fill-gold text-gold" />)}
               </div>
             </div>
           </div>
@@ -143,17 +144,17 @@ export default function App() {
 
         {/* Services Grid */}
         <div className="space-y-24">
-          <ServiceSection 
-            title="Streaming de Lujo" 
-            services={streamingServices} 
+          <ServiceSection
+            title="Streaming de Lujo"
+            services={streamingServices}
             expandedService={expandedService}
             toggleService={toggleService}
             onPurchase={handlePurchase}
           />
 
-          <ServiceSection 
-            title="Herramientas de Poder" 
-            services={toolServices} 
+          <ServiceSection
+            title="Herramientas de Poder"
+            services={toolServices}
             expandedService={expandedService}
             toggleService={toggleService}
             onPurchase={handlePurchase}
@@ -165,11 +166,11 @@ export default function App() {
           <div className="absolute inset-0 bg-gold/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
           <div className="relative bg-white dark:bg-premium-gray rounded-[40px] p-10 border border-gray-200 dark:border-gold/30 shadow-2xl overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-            
+
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-3xl font-black mb-4 flex items-center justify-center md:justify-start gap-3">
-                  <Smartphone className="text-gold" size={32} /> 
+                  <Smartphone className="text-gold" size={32} />
                   MÉTODO DE PAGO <span className="text-gold">NEQUI</span>
                 </h3>
                 <p className="text-lg text-gray-600 dark:text-silver-dark mb-8 font-light">
@@ -186,7 +187,7 @@ export default function App() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="w-full md:w-72 aspect-square bg-gold-metallic rounded-3xl p-1 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
                 <div className="w-full h-full bg-premium-black rounded-[22px] flex flex-col items-center justify-center p-6 text-center">
                   <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mb-4">
@@ -238,7 +239,7 @@ export default function App() {
                   <X size={24} />
                 </button>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="p-8 space-y-8">
                 <div className="bg-gold-metallic p-[1px] rounded-3xl">
                   <div className="bg-white dark:bg-premium-black p-6 rounded-[23px]">
@@ -257,7 +258,7 @@ export default function App() {
                       required
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="Tu nombre completo"
                       className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-premium-black border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30"
                     />
@@ -267,7 +268,7 @@ export default function App() {
                       required
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="Tu número de WhatsApp"
                       className="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-premium-black border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30"
                     />
@@ -300,10 +301,13 @@ export default function App() {
                 <CheckCircle2 size={56} />
               </div>
               <h3 className="text-3xl font-black mb-4 tracking-tight">¡EXCELENTE!</h3>
-              <p className="text-gray-600 dark:text-silver-dark font-light">
-                Estamos preparando tu acceso. <br />
-                <span className="text-gold font-bold">Redirigiendo a WhatsApp...</span>
+              <p className="text-gray-600 dark:text-silver-dark font-light mb-6">
+                Estamos preparando tu acceso.
               </p>
+              <div className="flex flex-col items-center justify-center gap-3">
+                <Loader2 className="w-8 h-8 text-gold animate-spin" />
+                <span className="text-gold font-bold tracking-widest text-sm uppercase">Redirigiendo a WhatsApp...</span>
+              </div>
             </motion.div>
           </div>
         )}
@@ -312,9 +316,9 @@ export default function App() {
   );
 }
 
-function ServiceSection({ title, services, expandedService, toggleService, onPurchase }: { 
-  title: string, 
-  services: Service[], 
+function ServiceSection({ title, services, expandedService, toggleService, onPurchase }: {
+  title: string,
+  services: Service[],
   expandedService: string | null,
   toggleService: (id: string) => void,
   onPurchase: (s: Service, o: ServiceOption) => void
@@ -326,11 +330,11 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
         <h3 className="text-3xl font-black tracking-tighter uppercase text-center">{title}</h3>
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
-          <motion.div 
-            key={service.id} 
+          <motion.div
+            key={service.id}
             whileHover={{ y: -5 }}
             className="group bg-white dark:bg-premium-gray rounded-[32px] border border-gray-200 dark:border-gold/10 overflow-hidden shadow-xl hover:shadow-gold/10 transition-all flex flex-col relative"
           >
@@ -347,9 +351,9 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
               {/* Left Column: Logo */}
               <div className="w-16 h-16 flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl flex items-center justify-center p-2 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
                 {service.icon ? (
-                  <img 
-                    src={service.icon} 
-                    alt={service.name} 
+                  <img
+                    src={service.icon}
+                    alt={service.name}
                     className="max-w-full max-h-full object-contain filter dark:brightness-110"
                     referrerPolicy="no-referrer"
                     onError={(e) => {
@@ -377,8 +381,8 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
                     </div>
                   ))}
                 </div>
-                
-                <button 
+
+                <button
                   onClick={() => toggleService(service.id)}
                   className="mt-2 text-gold text-[10px] font-black flex items-center gap-1 hover:text-gold-light transition-colors uppercase tracking-[0.2em]"
                 >
