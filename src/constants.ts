@@ -1,4 +1,11 @@
 import { Service } from './types';
+import primeVideoIcon from './assets/primevideo.svg';
+import hboMaxIcon from './assets/hbomax.svg';
+import paramountIcon from './assets/paramount.svg';
+import crunchyrollIcon from './assets/Crunchyroll_Logo.svg';
+import vixIcon from './assets/ViX_Logo.svg';
+import plexIcon from './assets/Plex_logo_2022.svg';
+import canvaIcon from './assets/canva-icon.svg';
 
 export const SERVICES: Service[] = [
   {
@@ -19,7 +26,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Acceso a todo el catálogo de Amazon Prime Video.',
     warranty: 'Garantía de 30 días. Activación inmediata.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_Prime_Video_logo.png',
+    icon: primeVideoIcon,
     options: [{ label: 'Prime Video', price: 8000, days: 30 }]
   },
   {
@@ -46,7 +53,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Series exclusivas y películas taquilleras.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg',
+    icon: hboMaxIcon,
     options: [{ label: 'HBO MAX', price: 8000, days: 30 }]
   },
   {
@@ -55,7 +62,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Montañas de entretenimiento.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus_logo.svg',
+    icon: paramountIcon,
     options: [{ label: 'Paramount+', price: 8000, days: 30 }]
   },
   {
@@ -64,7 +71,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'El mejor anime del mundo.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Crunchyroll_Logo.svg',
+    icon: crunchyrollIcon,
     options: [{ label: 'Crunchyroll', price: 8000, days: 30 }]
   },
   {
@@ -73,7 +80,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Contenido premium en español.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Vix_logo.svg',
+    icon: vixIcon,
     options: [{ label: 'VIX+', price: 8000, days: 30 }]
   },
   {
@@ -82,7 +89,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Tu centro de medios personal.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Plex_logo_2022.svg',
+    icon: plexIcon,
     options: [{ label: 'Plex', price: 8000, days: 30 }]
   },
   {
@@ -109,7 +116,7 @@ export const SERVICES: Service[] = [
     category: 'tools',
     description: 'Diseño profesional para todos.',
     warranty: 'Garantía de 30 días.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Canva_icon_2021.svg',
+    icon: canvaIcon,
     options: [{ label: 'Canva Pro', price: 10000, days: 30 }]
   }
 ];
