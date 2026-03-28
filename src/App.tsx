@@ -433,7 +433,7 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-hidden min-h-[400px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 overflow-hidden min-h-[400px]">
         <AnimatePresence mode="wait">
           {isLoading ? (
             <motion.div 
@@ -441,7 +441,7 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full w-full"
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 col-span-full w-full"
             >
               {Array.from({ length: Math.min(itemsPerPage, services?.length || 3) }).map((_, i) => (
             <div key={i} className="bg-gray-100 dark:bg-premium-gray/50 rounded-[32px] h-[340px] border border-gray-200 dark:border-gold/5 animate-pulse flex flex-col p-6">
@@ -466,7 +466,7 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full w-full"
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 col-span-full w-full"
           >
             {currentServices.map((service) => (
               <motion.div
@@ -530,17 +530,17 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
 
                 {/* Right Column: Info */}
                 <div className="flex-1 min-w-0 pr-1 sm:pr-2">
-                  <h4 className={`font-black tracking-tight mb-2 pr-24 sm:pr-28 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'}`}>
+                  <h4 className={`font-black tracking-tight mb-2 pr-16 md:pr-24 xl:pr-32 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-sm md:text-base lg:text-lg' : 'text-base md:text-lg lg:text-xl'}`}>
                     {service.name}
                   </h4>
                   <div className="space-y-1">
                     {service.options.map((opt, idx) => (
                       <div key={idx} className="flex flex-col">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between sm:gap-4">
-                          <span className="text-[10px] sm:text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between lg:gap-4">
+                          <span className="text-[10px] md:text-xs lg:text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
                             {service.category === 'streaming' ? '1 PANTALLA • ' : ''}{opt.days} DÍAS
                           </span>
-                          <span className="font-black text-gold text-xl sm:text-2xl tracking-tighter self-start sm:self-auto">${opt.price.toLocaleString()}</span>
+                          <span className="font-black text-gold text-lg md:text-xl xl:text-2xl tracking-tighter self-start lg:self-auto">${opt.price.toLocaleString()}</span>
                         </div>
                         {service.savings && (
                           <div className="text-[12px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
