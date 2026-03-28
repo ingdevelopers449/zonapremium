@@ -136,9 +136,18 @@ export default function App() {
               TU MEJOR OPCIÓN EN <br />
               <span className="text-gold-gradient italic">SERVICIOS PREMIUM</span>
             </h2>
-            <p className="text-xl text-gray-600 dark:text-silver-dark max-w-2xl mx-auto leading-relaxed font-light">
+            <p className="text-xl text-gray-600 dark:text-silver-dark max-w-2xl mx-auto leading-relaxed font-light mb-8">
               Accede a plataformas de entretenimiento y herramientas de élite de forma fácil, rápida y segura. <span className="text-gold font-medium">Activación personalizada inmediata.</span>
             </p>
+            
+            <div className="flex flex-col items-center justify-center space-y-3">
+              <span className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-[0.2em]">Medio de pago oficial</span>
+              <div className="flex items-center gap-3 bg-white dark:bg-premium-black/50 border border-gray-100 dark:border-gold/20 px-6 py-3 rounded-full shadow-lg shadow-pink-500/5 dark:shadow-pink-500/10 hover:scale-105 transition-transform">
+                <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-6 w-auto" />
+                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800"></div>
+                <span className="font-black text-gray-800 dark:text-gray-200 tracking-tight">Pagos rápidos y seguros</span>
+              </div>
+            </div>
           </motion.div>
         </section>
 
@@ -170,8 +179,8 @@ export default function App() {
             <div className="flex flex-col md:flex-row items-center gap-12">
               <div className="flex-1 text-center md:text-left">
                 <h3 className="text-3xl font-black mb-4 flex items-center justify-center md:justify-start gap-3">
-                  <Smartphone className="text-gold" size={32} />
-                  MÉTODO DE PAGO <span className="text-gold">NEQUI</span>
+                  <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-8 w-auto filter drop-shadow-md" />
+                  MÉTODO DE PAGO
                 </h3>
                 <p className="text-lg text-gray-600 dark:text-silver-dark mb-8 font-light">
                   Realiza tu pago de forma segura. Una vez realizado, envíanos la captura de pantalla para activar tu servicio al instante.

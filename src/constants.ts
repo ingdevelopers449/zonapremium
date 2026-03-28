@@ -44,7 +44,7 @@ export const SERVICES: Service[] = [
     category: 'streaming',
     description: 'Combo completo con deportes en vivo y entretenimiento.',
     warranty: 'Garantía de 30 días. Activación personalizada.',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/7/77/Disney_Plus_Star_Plus_Combo_Logo.png',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg',
     options: [{ label: 'Disney+ & ESPN', price: 12000, days: 30 }]
   },
   {
@@ -121,5 +121,5 @@ export const SERVICES: Service[] = [
   }
 ];
 
-export const NEQUI_NUMBER = "317 144 4624";
-export const WHATSAPP_NUMBER = "573171444624"; // Updating WhatsApp to match Nequi for consistency
+export const NEQUI_NUMBER = "314 213 4128";
+export const WHATSAPP_NUMBER = "573142134128";
