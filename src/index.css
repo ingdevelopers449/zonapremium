@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #D4AF37;
+  --color-gold-light: #F9E79F;
+  --color-gold-dark: #B7950B;
+  --color-silver: #C0C0C0;
+  --color-silver-light: #E5E4E2;
+  --color-silver-dark: #848482;
+  --color-premium-black: #050505;
+  --color-premium-gray: #1A1A1A;
+}
+
+@layer base {
+  body {
+    @apply transition-colors duration-500 bg-white dark:bg-premium-black;
+  }
+}
+
+/* Metallic Gradient Effects */
+.bg-gold-metallic {
+  background: linear-gradient(135deg, #B7950B 0%, #F9E79F 50%, #D4AF37 100%);
+}
+
+.bg-silver-metallic {
+  background: linear-gradient(135deg, #848482 0%, #E5E4E2 50%, #C0C0C0 100%);
+}
+
+.text-gold-gradient {
+  background: linear-gradient(to bottom, #F9E79F, #D4AF37, #B7950B);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-gradient {
+  border-image: linear-gradient(to right, #B7950B, #F9E79F, #D4AF37) 1;
+}
+
+.glass-card {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+.dark .glass-card {
+  @apply bg-black/40 backdrop-blur-lg border border-gold/20;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-premium-black;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gold rounded-full;
+}
