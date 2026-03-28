@@ -90,6 +90,7 @@ export const SERVICES: Service[] = [
     description: 'Tu centro de medios personal.',
     warranty: 'Garantía de 30 días.',
     icon: plexIcon,
+    invertInDarkMode: true,
     options: [{ label: 'Plex', price: 8000, days: 30 }]
   },
   {
@@ -121,5 +122,77 @@ export const SERVICES: Service[] = [
   }
 ];
 
-export const NEQUI_NUMBER = "314 213 4128";
+export const COMBOS: Service[] = [
+  {
+    id: 'combo-x6',
+    name: 'MEGA COMBO X6',
+    category: 'streaming',
+    description: 'El paquete definitivo: Netflix, Prime Video, HBO Max, Disney+, ViX+ y Crunchyroll.',
+    warranty: 'Garantía total de 30 días.',
+    icons: [
+      'https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png',
+      primeVideoIcon,
+      hboMaxIcon,
+      'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg',
+      vixIcon,
+      crunchyrollIcon
+    ],
+    savings: { amount: 23000, percentage: 43 },
+    options: [{ label: 'Mega Combo X6', price: 30000, days: 30 }]
+  },
+  {
+    id: 'combo-netflix-hbo',
+    name: 'NETFLIX + HBO MAX',
+    category: 'streaming',
+    description: 'Disfruta de lo mejor de Netflix y HBO MAX en un solo paquete.',
+    warranty: 'Garantía total de 30 días.',
+    icons: ['https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png', hboMaxIcon],
+    savings: { amount: 3000, percentage: 14 },
+    options: [{ label: 'Netflix + HBO MAX', price: 18000, days: 30 }]
+  },
+  {
+    id: 'combo-netflix-paramount',
+    name: 'NETFLIX + PARAMOUNT',
+    category: 'streaming',
+    description: 'Cine y series ilimitadas con Netflix y Paramount+.',
+    warranty: 'Garantía total de 30 días.',
+    icons: ['https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png', paramountIcon],
+    savings: { amount: 3000, percentage: 14 },
+    options: [{ label: 'Netflix + PARAMOUNT', price: 18000, days: 30 }]
+  },
+  {
+    id: 'combo-netflix-prime',
+    name: 'NETFLIX + PRIME VIDEO',
+    category: 'streaming',
+    description: 'Los dos gigantes del streaming a un precio imbatible.',
+    warranty: 'Garantía total de 30 días.',
+    icons: ['https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png', primeVideoIcon],
+    savings: { amount: 3000, percentage: 14 },
+    options: [{ label: 'Netflix + PRIME VIDEO', price: 18000, days: 30 }]
+  },
+  {
+    id: 'combo-netflix-crunchyroll',
+    name: 'NETFLIX + CRUNCHYROLL',
+    category: 'streaming',
+    description: 'Series, películas y el mejor anime del mundo.',
+    warranty: 'Garantía total de 30 días.',
+    icons: ['https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png', crunchyrollIcon],
+    savings: { amount: 4000, percentage: 19 },
+    options: [{ label: 'Netflix + CRUNCHYROLL', price: 17000, days: 30 }]
+  },
+  {
+    id: 'combo-netflix-disney',
+    name: 'NETFLIX + DISNEY PREMIUM',
+    category: 'streaming',
+    description: 'Netflix y Disney+ Premium (incluye ESPN) para toda la familia.',
+    warranty: 'Garantía total de 30 días.',
+    icons: ['https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png', 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg'],
+    savings: { amount: 2000, percentage: 8 },
+    options: [{ label: 'Netflix + DISNEY PREMIUM', price: 23000, days: 30 }]
+  }
+];
+
+export const NEQUI_NUMBER = "317 144 4624";
+export const TEL_NUMBER = "314 213 4128";
 export const WHATSAPP_NUMBER = "573142134128";
+

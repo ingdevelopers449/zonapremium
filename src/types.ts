@@ -6,6 +6,12 @@ export interface Service {
   description: string;
   warranty: string;
   icon?: string;
+  icons?: string[];
+  invertInDarkMode?: boolean;
+  savings?: {
+    amount: number;
+    percentage: number;
+  };
 }
 
 export interface ServiceOption {

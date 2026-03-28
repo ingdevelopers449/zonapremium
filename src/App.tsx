@@ -19,10 +19,12 @@ import {
   MessageCircle,
   Star,
   Shield,
-  Loader2
+  Loader2,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SERVICES, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
+import { SERVICES, COMBOS, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
 import { Service, ServiceOption } from './types';
 import logoUrl from './assets/logo.png';
 
@@ -32,6 +34,16 @@ export default function App() {
   const [selectedService, setSelectedService] = useState<{ service: Service, option: ServiceOption } | null>(null);
   const [formData, setFormData] = useState({ name: '', phone: '' });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showNequiModal, setShowNequiModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simula el loader elegante
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -139,14 +151,21 @@ export default function App() {
             <p className="text-xl text-gray-600 dark:text-silver-dark max-w-2xl mx-auto leading-relaxed font-light mb-8">
               Accede a plataformas de entretenimiento y herramientas de élite de forma fácil, rápida y segura. <span className="text-gold font-medium">Activación personalizada inmediata.</span>
             </p>
-            
+
             <div className="flex flex-col items-center justify-center space-y-3">
               <span className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-[0.2em]">Medio de pago oficial</span>
-              <div className="flex items-center gap-3 bg-white dark:bg-premium-black/50 border border-gray-100 dark:border-gold/20 px-6 py-3 rounded-full shadow-lg shadow-pink-500/5 dark:shadow-pink-500/10 hover:scale-105 transition-transform">
-                <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-6 w-auto" />
-                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800"></div>
-                <span className="font-black text-gray-800 dark:text-gray-200 tracking-tight">Pagos rápidos y seguros</span>
-              </div>
+              <button 
+                onClick={() => setShowNequiModal(true)}
+                className="flex items-center gap-4 bg-white dark:bg-premium-black/50 border-2 border-pink-500/20 dark:border-pink-500/30 px-8 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all group overflow-hidden relative"
+              >
+                <div className="absolute inset-0 bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors"></div>
+                <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="h-8 w-auto relative z-10 filter drop-shadow-sm" />
+                <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 relative z-10"></div>
+                <div className="text-left relative z-10">
+                  <span className="block font-black text-gray-800 dark:text-gray-200 tracking-tight leading-none text-base">VER DATOS DE PAGO</span>
+                  <span className="text-[10px] text-pink-500 font-bold uppercase tracking-widest">Socio Verificado ✅</span>
+                </div>
+              </button>
             </div>
           </motion.div>
         </section>
@@ -154,11 +173,21 @@ export default function App() {
         {/* Services Grid */}
         <div className="space-y-24">
           <ServiceSection
+            title="Combos Explosivos 🔥"
+            services={COMBOS}
+            expandedService={expandedService}
+            toggleService={toggleService}
+            onPurchase={handlePurchase}
+            isLoading={isLoading}
+          />
+
+          <ServiceSection
             title="Streaming de Lujo"
             services={streamingServices}
             expandedService={expandedService}
             toggleService={toggleService}
             onPurchase={handlePurchase}
+            isLoading={isLoading}
           />
 
           <ServiceSection
@@ -167,6 +196,7 @@ export default function App() {
             expandedService={expandedService}
             toggleService={toggleService}
             onPurchase={handlePurchase}
+            isLoading={isLoading}
           />
         </div>
 
@@ -321,17 +351,80 @@ export default function App() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* Nequi Info Modal */}
+      <AnimatePresence>
+        {showNequiModal && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-white dark:bg-premium-gray rounded-[40px] w-full max-w-md overflow-hidden shadow-2xl border border-pink-500/20 relative"
+            >
+              <button 
+                onClick={() => setShowNequiModal(false)}
+                className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gold/10 text-gray-400 hover:text-gray-600 dark:hover:text-gold transition-colors z-10"
+              >
+                <X size={24} />
+              </button>
+
+              <div className="p-10 pt-12 space-y-8 text-center">
+                <div className="flex justify-center flex-col items-center gap-4">
+                  <div className="w-24 h-24 bg-pink-500/10 rounded-full flex items-center justify-center border border-pink-500/20">
+                    <img src="https://cdn.worldvectorlogo.com/logos/nequi.svg" alt="Nequi" className="w-12 h-auto" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black tracking-tight uppercase">MÉTODO OFICIAL</h3>
+                    <div className="flex items-center justify-center gap-2 mt-1">
+                      <span className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
+                      <span className="text-[10px] text-green-500 font-bold uppercase tracking-widest">Cuenta Verificada</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-premium-black/50 p-8 rounded-[32px] border-2 border-pink-500/30 relative group">
+                  <span className="block text-[10px] text-pink-500 font-bold uppercase tracking-[0.2em] mb-2 text-center">NÚMERO DE CUENTA</span>
+                  <p className="text-4xl font-black tracking-tighter text-gray-900 dark:text-white mb-2">{NEQUI_NUMBER}</p>
+                  <p className="text-xs text-gray-400 dark:text-silver-dark font-light">
+                    Socio Autorizado ZonaPremium
+                  </p>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-gold/10">
+                  <p className="text-sm text-gray-600 dark:text-silver-dark font-light">
+                    Por favor, una vez terminado el pago, envía tu <span className="font-bold text-premium-black dark:text-white">captura</span> para activar tu servicio.
+                  </p>
+                  <button 
+                    onClick={() => setShowNequiModal(false)}
+                    className="w-full bg-premium-black dark:bg-white text-white dark:text-premium-black py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all"
+                  >
+                    CONTINUAR NAVEGANDO
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-function ServiceSection({ title, services, expandedService, toggleService, onPurchase }: {
+function ServiceSection({ title, services, expandedService, toggleService, onPurchase, isLoading }: {
   title: string,
   services: Service[],
   expandedService: string | null,
   toggleService: (id: string) => void,
-  onPurchase: (s: Service, o: ServiceOption) => void
+  onPurchase: (s: Service, o: ServiceOption) => void,
+  isLoading?: boolean
 }) {
+  const itemsPerPage = 6;
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const totalPages = Math.ceil((services?.length || 0) / itemsPerPage);
+
+  const currentServices = (services || []).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <section>
       <div className="flex items-center gap-4 mb-10">
@@ -340,114 +433,207 @@ function ServiceSection({ title, services, expandedService, toggleService, onPur
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service) => (
-          <motion.div
-            key={service.id}
-            whileHover={{ y: -5 }}
-            className="group bg-white dark:bg-premium-gray rounded-[32px] border border-gray-200 dark:border-gold/10 overflow-hidden shadow-xl hover:shadow-gold/10 transition-all flex flex-col relative"
-          >
-            {/* Premium Badge */}
-            <div className="absolute top-4 right-4 z-10">
-              <div className="bg-gold/10 backdrop-blur-md border border-gold/20 px-3 py-1 rounded-full flex items-center gap-1">
-                <Star size={10} className="fill-gold text-gold" />
-                <span className="text-[10px] font-black text-gold uppercase tracking-widest">Premium</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-hidden min-h-[400px]">
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div 
+              key="skeleton"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full w-full"
+            >
+              {Array.from({ length: Math.min(itemsPerPage, services?.length || 3) }).map((_, i) => (
+            <div key={i} className="bg-gray-100 dark:bg-premium-gray/50 rounded-[32px] h-[340px] border border-gray-200 dark:border-gold/5 animate-pulse flex flex-col p-6">
+              <div className="flex items-start gap-5">
+                <div className="w-16 h-16 rounded-2xl bg-gray-200 dark:bg-premium-black/80"></div>
+                <div className="flex-1 pt-2">
+                  <div className="h-5 w-3/4 bg-gray-200 dark:bg-premium-black/80 rounded-full mb-4"></div>
+                  <div className="flex items-center justify-between mt-6">
+                    <div className="h-3 w-1/3 bg-gray-200 dark:bg-premium-black/80 rounded-full"></div>
+                    <div className="h-5 w-1/3 bg-gray-200 dark:bg-premium-black/80 rounded-full"></div>
+                  </div>
+                </div>
               </div>
+              <div className="mt-auto h-12 w-full bg-gray-200 dark:bg-premium-black/80 rounded-xl"></div>
             </div>
-
-            {/* Header Row */}
-            <div className="p-6 flex items-start gap-5">
-              {/* Left Column: Logo */}
-              <div className="w-16 h-16 flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl flex items-center justify-center p-2 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
-                {service.icon ? (
-                  <img
-                    src={service.icon}
-                    alt={service.name}
-                    className="max-w-full max-h-full object-contain filter dark:brightness-110"
-                    referrerPolicy="no-referrer"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.parentElement?.classList.add('flex-col');
-                      const fallback = document.createElement('div');
-                      fallback.className = 'text-gold font-black text-xl';
-                      fallback.innerText = service.name[0];
-                      e.currentTarget.parentElement?.appendChild(fallback);
-                    }}
-                  />
-                ) : (
-                  <div className="text-gold font-black text-2xl">{service.name[0]}</div>
+          ))}
+            </motion.div>
+        ) : (
+          <motion.div
+            key={currentPage}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 col-span-full w-full"
+          >
+            {currentServices.map((service) => (
+              <motion.div
+              key={service.id}
+              layout
+              whileHover={expandedService === service.id ? {} : { y: -5 }}
+              animate={{
+                scale: expandedService === service.id ? 1.02 : 1,
+                boxShadow: expandedService === service.id ? "0 20px 25px -5px rgb(212 175 55 / 0.1), 0 8px 10px -6px rgb(212 175 55 / 0.1)" : "0 10px 15px -3px rgb(0 0 0 / 0.1)"
+              }}
+              className={`group bg-white dark:bg-premium-gray rounded-[32px] border transition-all flex flex-col relative ${expandedService === service.id ? 'border-gold/50 z-20 shadow-2xl shadow-gold/20' : 'border-gray-200 dark:border-gold/10 z-10'}`}
+            >
+              {/* Premium Badge */}
+              <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-2">
+                <div className="bg-gold/10 backdrop-blur-md border border-gold/20 px-3 py-1 rounded-full flex items-center gap-1">
+                  <Star size={10} className="fill-gold text-gold" />
+                  <span className="text-[10px] font-black text-gold uppercase tracking-widest">Premium</span>
+                </div>
+                {service.savings && (
+                  <div className="bg-green-500/10 backdrop-blur-md border border-green-500/20 px-3 py-1 rounded-full">
+                    <span className="text-[10px] font-black text-green-500 uppercase tracking-widest">Ahorra {service.savings.percentage}%</span>
+                  </div>
                 )}
               </div>
 
-              {/* Right Column: Info */}
-              <div className="flex-1 min-w-0">
-                <h4 className="font-black text-xl truncate tracking-tight mb-1">{service.name}</h4>
-                <div className="space-y-1">
-                  {service.options.map((opt, idx) => (
-                    <div key={idx} className="flex items-center justify-between">
-                      <span className="text-xs text-gray-500 dark:text-silver-dark font-medium uppercase tracking-tighter">{opt.days} DÍAS</span>
-                      <span className="font-black text-gold text-lg tracking-tighter">${opt.price.toLocaleString()}</span>
+              {/* Header Row */}
+              <div className="p-6 flex items-start gap-5">
+                {/* Left Column: Logo */}
+                <div className={`w-20 h-fit min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-3xl flex items-center justify-center p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
+                  {service.icons ? (
+                    <div className="grid grid-cols-2 gap-2">
+                      {service.icons.map((ic, i) => (
+                        <img
+                          key={i}
+                          src={ic}
+                          alt="icon"
+                          className={`w-6 h-6 object-contain filter ${service.invertInDarkMode && i === service.icons.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
+                          referrerPolicy="no-referrer"
+                        />
+                      ))}
                     </div>
-                  ))}
+                  ) : service.icon ? (
+                    <img
+                      src={service.icon}
+                      alt={service.name}
+                      className={`max-w-full max-h-full object-contain filter transition-all ${service.invertInDarkMode ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement?.classList.add('flex-col');
+                        const fallback = document.createElement('div');
+                        fallback.className = 'text-gold font-black text-xl';
+                        fallback.innerText = service.name[0];
+                        e.currentTarget.parentElement?.appendChild(fallback);
+                      }}
+                    />
+                  ) : (
+                    <div className="text-gold font-black text-2xl">{service.name[0]}</div>
+                  )}
                 </div>
 
-                <button
-                  onClick={() => toggleService(service.id)}
-                  className="mt-2 text-gold text-[10px] font-black flex items-center gap-1 hover:text-gold-light transition-colors uppercase tracking-[0.2em]"
-                >
-                  {expandedService === service.id ? 'Cerrar' : 'Detalles'}
-                  {expandedService === service.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Dropdown Content */}
-            <AnimatePresence>
-              {expandedService === service.id && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="overflow-hidden bg-gray-50 dark:bg-premium-black/50 border-t border-gray-100 dark:border-gold/10"
-                >
-                  <div className="p-6 space-y-4">
-                    <div>
-                      <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
-                        <Info size={14} /> DESCRIPCIÓN
-                      </h5>
-                      <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
-                        {service.description}
-                      </p>
-                    </div>
-                    <div>
-                      <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
-                        <ShieldCheck size={14} /> GARANTÍA ELITE
-                      </h5>
-                      <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
-                        {service.warranty}
-                      </p>
-                    </div>
+                {/* Right Column: Info */}
+                <div className="flex-1 min-w-0 pr-2">
+                  <h4 className={`font-black tracking-tight mb-2 pr-28 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-lg' : 'text-xl'}`}>
+                    {service.name}
+                  </h4>
+                  <div className="space-y-1">
+                    {service.options.map((opt, idx) => (
+                      <div key={idx} className="flex flex-col">
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
+                            {service.category === 'streaming' ? '1 PANTALLA • ' : ''}{opt.days} DÍAS
+                          </span>
+                          <span className="font-black text-gold text-2xl tracking-tighter">${opt.price.toLocaleString()}</span>
+                        </div>
+                        {service.savings && (
+                          <div className="text-[12px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
+                            ¡Te ahorras ${service.savings.amount.toLocaleString()}!
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
 
-            {/* Footer: Purchase Buttons */}
-            <div className="mt-auto p-6 pt-0 flex flex-col gap-2">
-              {service.options.map((opt, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => onPurchase(service, opt)}
-                  className="w-full bg-gold-metallic text-premium-black py-3 rounded-xl text-xs font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 uppercase tracking-widest border border-gold/20"
-                >
-                  <ShoppingCart size={16} className="fill-premium-black" />
-                  {service.options.length > 1 ? opt.label : `ADQUIRIR ${service.name}`}
-                </button>
-              ))}
-            </div>
+                  <button
+                    onClick={() => toggleService(service.id)}
+                    className="mt-2 text-gold text-[10px] font-black flex items-center gap-1 hover:text-gold-light transition-colors uppercase tracking-[0.2em]"
+                  >
+                    {expandedService === service.id ? 'Cerrar' : 'Detalles'}
+                    {expandedService === service.id ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Dropdown Content */}
+              <AnimatePresence>
+                {expandedService === service.id && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden bg-gray-50 dark:bg-premium-black/50 border-t border-gray-100 dark:border-gold/10"
+                  >
+                    <div className="p-6 space-y-4">
+                      <div>
+                        <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
+                          <Info size={14} /> DESCRIPCIÓN
+                        </h5>
+                        <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
+                          {service.description}
+                        </p>
+                      </div>
+                      <div>
+                        <h5 className="text-[10px] font-black text-gold uppercase tracking-[0.2em] mb-1 flex items-center gap-2">
+                          <ShieldCheck size={14} /> GARANTÍA ELITE
+                        </h5>
+                        <p className="text-sm text-gray-600 dark:text-silver-dark leading-relaxed font-light">
+                          {service.warranty}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Footer: Purchase Buttons */}
+              <div className="mt-auto p-6 pt-0 flex flex-col gap-2">
+                {service.options.map((opt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => onPurchase(service, opt)}
+                    className="w-full bg-gold-metallic text-premium-black py-3 rounded-xl text-xs font-black shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 uppercase tracking-widest border border-gold/20"
+                  >
+                    <ShoppingCart size={16} className="fill-premium-black" />
+                    {service.options.length > 1 ? opt.label : `ADQUIRIR ${service.name}`}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          ))}
           </motion.div>
-        ))}
+        )}
+        </AnimatePresence>
       </div>
+
+      {/* Pagination Controls */}
+      {!isLoading && totalPages > 1 && (
+        <div className="flex justify-center items-center mt-12 gap-4">
+          <button
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="p-3 rounded-full bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 text-gray-400 dark:text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:border-gold transition-colors shadow-lg"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <div className="text-sm font-bold tracking-widest uppercase text-gray-500 dark:text-silver-dark flex items-center gap-2">
+            Página <span className="text-gold bg-gold/10 px-3 py-1 rounded-full">{currentPage}</span> de {totalPages}
+          </div>
+          <button
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="p-3 rounded-full bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 text-gray-400 dark:text-gold disabled:opacity-30 disabled:cursor-not-allowed hover:border-gold transition-colors shadow-lg"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      )}
     </section>
   );
 }
