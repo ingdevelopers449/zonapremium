@@ -16,8 +16,8 @@ export const SERVICES: Service[] = [
     warranty: 'Garantía total por el tiempo contratado. Soporte inmediato vía WhatsApp.',
     icon: 'https://upload.wikimedia.org/wikipedia/commons/f/ff/Netflix-new-icon.png',
     options: [
-      { label: 'Netflix x27 Días', price: 13000, days: 27 },
-      { label: 'Netflix x33 Días', price: 16000, days: 33 }
+      { label: 'Netflix x27 Días', price: 13000, oldPrice: 16000, days: 27, badge: 'Popular 🔥' },
+      { label: 'Netflix x33 Días', price: 16000, oldPrice: 20000, days: 33, badge: 'Mejor Valor ✨' }
     ]
   },
   {
@@ -138,7 +138,7 @@ export const COMBOS: Service[] = [
       crunchyrollIcon
     ],
     savings: { amount: 23000, percentage: 43 },
-    options: [{ label: 'Mega Combo X6', price: 30000, days: 30 }]
+    options: [{ label: 'Mega Combo X6', price: 30000, oldPrice: 53000, days: 30, badge: 'Últimos Cupos ⏳' }]
   },
   {
     id: 'combo-netflix-hbo',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import hboMaxIcon from '../../assets/hbomax.svg';
-import { Tv2, Zap, ShieldCheck, ChevronDown } from 'lucide-react';
+import { Tv2, Zap, ShieldCheck, ChevronDown, Star } from 'lucide-react';
 
 interface HeroProps {
   setShowNequiModal: (value: boolean) => void;
@@ -54,16 +54,41 @@ const Hero: React.FC<HeroProps> = ({ setShowNequiModal }) => {
       </motion.div>
 
       {/* Main headline */}
-      <motion.h1
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1 }}
-        className="text-5xl sm:text-7xl font-black mb-5 tracking-tight leading-none"
+        className="mb-8"
       >
-        STREAMING &amp; IA
-        <br />
-        <span className="text-gold-gradient italic">AL MEJOR PRECIO</span>
-      </motion.h1>
+        <h1 className="text-5xl sm:text-7xl font-black mb-5 tracking-tight leading-none">
+          STREAMING &amp; IA
+          <br />
+          <span className="text-gold-gradient italic">AL MEJOR PRECIO</span>
+        </h1>
+        
+        {/* Social Proof Counter */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+          <div className="flex -space-x-3 overflow-hidden">
+            {['JD', 'AM', 'LR', 'SC'].map((name, i) => (
+              <div key={i} className="inline-block h-10 w-10 rounded-full ring-4 ring-white dark:ring-premium-black bg-gray-100 dark:bg-premium-gray flex items-center justify-center text-[10px] font-black text-gold border border-gold/10">
+                {name}
+              </div>
+            ))}
+            <div className="flex items-center justify-center h-10 w-10 rounded-full ring-4 ring-white dark:ring-premium-black bg-gold text-premium-black text-xs font-black shadow-lg shadow-gold/20">
+              +1K
+            </div>
+          </div>
+          <div className="text-center sm:text-left leading-tight">
+            <p className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-tighter">450+ CLIENTES SATISFECHOS</p>
+            <div className="flex items-center justify-center sm:justify-start gap-1 mt-1">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <Star key={s} size={12} className="fill-gold text-gold" />
+              ))}
+              <span className="text-[10px] text-gray-500 dark:text-silver-dark font-bold ml-1">4.9/5 Calificación</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Subheadline explicativa */}
       <motion.p

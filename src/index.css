@@ -57,3 +57,20 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-gold rounded-full;
 }
+
+/* Skeleton Animation */
+@keyframes skeleton-loading {
+  0% {
+    background-color: rgba(212, 175, 55, 0.05);
+  }
+  50% {
+    background-color: rgba(212, 175, 55, 0.15);
+  }
+  100% {
+    background-color: rgba(212, 175, 55, 0.05);
+  }
+}
+
+.skeleton {
+  animation: skeleton-loading 1.5s infinite ease-in-out;
+}

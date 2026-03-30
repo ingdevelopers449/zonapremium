@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, ChevronUp, ChevronDown, Info, ShieldCheck, ShoppingCart } from 'lucide-react';
 import { Service, ServiceOption } from '../../types';
@@ -12,6 +12,7 @@ interface ServiceCardProps {
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, expandedService, toggleService, onPurchase }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -64,7 +65,10 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, expandedService, tog
       {/* Header Row */}
       <div className="p-6 flex items-start gap-5">
         {/* Left Column: Logo */}
-        <div className={`w-16 sm:w-20 h-fit min-h-[64px] sm:min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl sm:rounded-3xl flex items-center justify-center p-2 sm:p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
+        <div className={`w-16 sm:w-20 h-fit min-h-[64px] sm:min-h-[80px] flex-shrink-0 bg-gray-50 dark:bg-premium-black rounded-2xl sm:rounded-3xl flex items-center justify-center p-2 sm:p-3 border border-gray-100 dark:border-gold/10 shadow-inner group-hover:scale-110 transition-transform duration-500 relative overflow-hidden`}>
+          {!imageLoaded && (
+            <div className="absolute inset-0 skeleton z-10" />
+          )}
           {service.icons ? (
             <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
               {service.icons.map((ic, i) => (
@@ -72,7 +76,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, expandedService, tog
                   key={i}
                   src={ic}
                   alt="icon"
-                  className={`w-5 h-5 sm:w-6 sm:h-6 object-contain filter ${service.invertInDarkMode && i === service.icons.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
+                  onLoad={() => i === service.icons!.length - 1 && setImageLoaded(true)}
+                  className={`w-5 h-5 sm:w-6 sm:h-6 object-contain filter ${service.invertInDarkMode && i === service.icons!.length - 1 ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'} ${imageLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity`}
                   referrerPolicy="no-referrer"
                 />
               ))}
@@ -81,9 +86,11 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, expandedService, tog
             <img
               src={service.icon}
               alt={service.name}
-              className={`max-w-full max-h-full object-contain filter transition-all ${service.invertInDarkMode ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'}`}
+              onLoad={() => setImageLoaded(true)}
+              className={`max-w-full max-h-full object-contain filter transition-all ${service.invertInDarkMode ? 'dark:invert dark:brightness-200 brightness-0' : 'dark:brightness-110'} ${imageLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity`}
               referrerPolicy="no-referrer"
-              onError={(e) => {
+               onError={(e) => {
+                setImageLoaded(true);
                 e.currentTarget.style.display = 'none';
                 e.currentTarget.parentElement?.classList.add('flex-col');
                 const fallback = document.createElement('div');
@@ -102,18 +109,32 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, expandedService, tog
           <h4 className={`font-black tracking-tight mb-2 pr-16 md:pr-24 xl:pr-32 group-hover:text-gold transition-colors leading-tight ${service.name.length > 20 ? 'text-sm md:text-base lg:text-lg' : 'text-base md:text-lg lg:text-xl'}`}>
             {service.name}
           </h4>
-          <div className="space-y-1">
+          <div className="space-y-3">
             {service.options.map((opt, idx) => (
               <div key={idx} className="flex flex-col">
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between lg:gap-4">
+                {opt.badge && (
+                  <div className="mb-1.5">
+                    <span className="text-[9px] font-black bg-gold/20 text-gold border border-gold/30 px-2 py-0.5 rounded-md uppercase tracking-widest inline-block">
+                      {opt.badge}
+                    </span>
+                  </div>
+                )}
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between lg:gap-2">
                   <span className="text-[10px] md:text-xs lg:text-sm text-gray-500 dark:text-silver-dark font-bold uppercase tracking-tight whitespace-nowrap">
                     {service.category === 'streaming' ? '1 PANTALLA • ' : ''}{opt.days} DÍAS
                   </span>
-                  <span className="font-black text-gold text-lg md:text-xl xl:text-2xl tracking-tighter self-start lg:self-auto">${opt.price.toLocaleString()}</span>
+                  <div className="flex flex-col items-end leading-none">
+                    {opt.oldPrice && (
+                      <span className="text-[10px] md:text-xs text-gray-400 dark:text-silver-dark/50 line-through font-bold mb-1">
+                        ${opt.oldPrice.toLocaleString()}
+                      </span>
+                    )}
+                    <span className="font-black text-gold text-xl md:text-2xl xl:text-3xl tracking-tighter">${opt.price.toLocaleString()}</span>
+                  </div>
                 </div>
                 {service.savings && (
-                  <div className="text-[12px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
-                    ¡Te ahorras ${service.savings.amount.toLocaleString()}!
+                  <div className="text-[10px] text-green-500 font-black uppercase tracking-widest mt-2 bg-green-500/5 px-3 py-1 rounded-lg border border-green-500/10 inline-block w-fit">
+                    ¡Ahorras ${service.savings.amount.toLocaleString()}!
                   </div>
                 )}
               </div>

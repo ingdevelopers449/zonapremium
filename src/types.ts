@@ -17,7 +17,9 @@ export interface Service {
 export interface ServiceOption {
   label: string;
   price: number;
+  oldPrice?: number;
   days: number;
+  badge?: string;
 }
 
 export interface PurchaseData {
