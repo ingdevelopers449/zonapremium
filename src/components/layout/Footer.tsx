@@ -1,4 +1,5 @@
 import React from 'react';
+import logoUrl from '../../assets/logo.png';
 
 const Footer: React.FC = () => {
   return (
@@ -9,12 +10,9 @@ const Footer: React.FC = () => {
             <div className="absolute inset-0 bg-gold blur-sm opacity-20"></div>
             <div className="relative w-10 h-10 bg-premium-black rounded-lg border border-gold/30 flex items-center justify-center overflow-hidden">
               <img 
-                src="/img/logo.png" 
+                src={logoUrl} 
                 alt="ZonaPremium Logo" 
-                className="w-full h-auto"
-                onError={(e) => {
-                  e.currentTarget.src = "/img/logo.ico";
-                }}
+                className="w-full h-auto object-contain"
               />
             </div>
           </div>

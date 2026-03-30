@@ -15,6 +15,7 @@ import ProgressBar from './components/layout/ProgressBar';
 import CustomCursor from './components/ui/CustomCursor';
 import SalesMarquee from './components/home/SalesMarquee';
 import Confetti from './components/ui/Confetti';
+import WhatsAppButton from './components/ui/WhatsAppButton';
 import { SERVICES, COMBOS, NEQUI_NUMBER, WHATSAPP_NUMBER } from './constants';
 import { Service, ServiceOption } from './types';
 import { Shield, CheckCircle2, BadgeCheck } from 'lucide-react';
@@ -72,13 +73,13 @@ export default function App() {
     }, 3000);
   };
 
-  const streamingServices = SERVICES.filter(s => s.category === 'streaming');
-  const toolServices = SERVICES.filter(s => s.category === 'tools');
+  const allServices = [...COMBOS, ...SERVICES];
 
   return (
     <div className="min-h-screen bg-white dark:bg-premium-black text-gray-800 dark:text-gray-100 font-sans selection:bg-gold selection:text-white overflow-x-hidden">
       <ProgressBar />
       <CustomCursor />
+      <WhatsAppButton />
       
       {showSuccessModal && <Confetti />}
 
@@ -102,26 +103,8 @@ export default function App() {
 
         <div className="space-y-24">
           <ServiceGrid
-            title="Combos Explosivos 🔥"
-            services={COMBOS}
-            expandedService={expandedService}
-            toggleService={toggleService}
-            onPurchase={handlePurchase}
-            isLoading={isLoading}
-          />
-
-          <ServiceGrid
-            title="Streaming de Lujo"
-            services={streamingServices}
-            expandedService={expandedService}
-            toggleService={toggleService}
-            onPurchase={handlePurchase}
-            isLoading={isLoading}
-          />
-
-          <ServiceGrid
-            title="Herramientas de Poder"
-            services={toolServices}
+            title="NUESTROS SERVICIOS"
+            services={allServices}
             expandedService={expandedService}
             toggleService={toggleService}
             onPurchase={handlePurchase}
@@ -183,7 +166,7 @@ export default function App() {
         initial={{ opacity: 0, x: 60 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 2.5, duration: 0.6, type: 'spring' }}
-        className="fixed bottom-6 right-6 z-50 hidden md:flex"
+        className="fixed bottom-28 right-6 z-50 hidden md:flex"
       >
         <AnimatePresence>
           <motion.div

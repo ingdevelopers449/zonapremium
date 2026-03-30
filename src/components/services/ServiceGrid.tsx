@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, LayoutGrid, Tv2, Zap, Sparkles } from 'lucide-react';
 import { Service, ServiceOption } from '../../types';
 import ServiceCard from './ServiceCard';
 
@@ -13,6 +13,13 @@ interface ServiceGridProps {
   isLoading?: boolean;
 }
 
+const CATEGORIES = [
+  { id: 'all', label: 'Todos', icon: <LayoutGrid size={16} /> },
+  { id: 'combos', label: 'Combos 🔥', icon: <Sparkles size={16} /> },
+  { id: 'streaming', label: 'Streaming', icon: <Tv2 size={16} /> },
+  { id: 'tools', label: 'Herramientas IA', icon: <Zap size={16} /> },
+];
+
 const ServiceGrid: React.FC<ServiceGridProps> = ({
   title,
   services,
@@ -22,44 +29,77 @@ const ServiceGrid: React.FC<ServiceGridProps> = ({
   isLoading
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  const filteredServices = (services || []).filter(service =>
-    service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    service.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredServices = useMemo(() => {
+    return (services || []).filter(service => {
+      const matchesSearch = service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          service.description.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesCategory = activeCategory === 'all' || 
+                             (activeCategory === 'combos' ? service.id.includes('combo') : service.category === activeCategory);
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [services, searchTerm, activeCategory]);
 
   const totalPages = Math.ceil(filteredServices.length / itemsPerPage);
   const currentServices = filteredServices.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  // Reset to page 1 when searching
+  // Reset to page 1 when searching or changing category
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
+  const handleCategoryChange = (categoryId: string) => {
+    setActiveCategory(categoryId);
+    setCurrentPage(1);
+  };
+
   return (
-    <section className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4 flex-1">
-          <div className="h-px w-8 bg-gold/50"></div>
-          <h3 className="text-3xl font-black tracking-tighter uppercase">{title}</h3>
-          <div className="h-px flex-1 bg-gradient-to-r from-gold/50 to-transparent"></div>
+    <section id="servicios" className="space-y-10 scroll-mt-32">
+      <div className="flex flex-col gap-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="flex items-center gap-4 flex-1">
+            <div className="h-px w-8 bg-gold/50"></div>
+            <h3 className="text-3xl font-black tracking-tighter uppercase">{title}</h3>
+            <div className="h-px flex-1 bg-gradient-to-r from-gold/50 to-transparent"></div>
+          </div>
+
+          {/* Search Bar */}
+          <div className="relative group max-w-sm w-full">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Search size={18} className="text-gray-400 group-focus-within:text-gold transition-colors" />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar servicio..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="w-full pl-12 pr-6 py-3 rounded-2xl bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30 text-sm shadow-sm"
+            />
+          </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="relative group max-w-sm w-full">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search size={18} className="text-gray-400 group-focus-within:text-gold transition-colors" />
-          </div>
-          <input
-            type="text"
-            placeholder="Buscar servicio..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="w-full pl-12 pr-6 py-3 rounded-2xl bg-white dark:bg-premium-gray border border-gray-200 dark:border-gold/20 focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all placeholder:text-gray-400 dark:placeholder:text-silver-dark/30 text-sm shadow-sm"
-          />
+        {/* Category Tabs */}
+        <div className="flex flex-wrap items-center gap-3">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => handleCategoryChange(cat.id)}
+              className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all ${
+                activeCategory === cat.id
+                  ? 'bg-gold text-premium-black shadow-lg shadow-gold/20 scale-105'
+                  : 'bg-white dark:bg-premium-gray text-gray-500 dark:text-silver-dark border border-gray-200 dark:border-gold/10 hover:border-gold/50'
+              }`}
+            >
+              {cat.icon}
+              {cat.label}
+            </button>
+          ))}
         </div>
       </div>
 
